@@ -3,12 +3,15 @@ import numpy
 
 background = None
 
-def get_average(frame, weight):
+def get_averageBackground(weight, capture):
 	global background
-	if background is None:
-		background = frame.copy().astype('float')
-		return None
-	cv2.accumulateWeighted(frame,background,weight)
+	for i in range(60):
+		ret,frame = capture.read()
+		gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+		if background is None:
+			background = gray.copy().astype('float')
+			return None
+		cv2.accumulateWeighted(gray,background,weight)
 
 
 def segment(gray,threshold_min = 25):
