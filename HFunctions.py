@@ -42,6 +42,23 @@ def static_FGEx_count(gray):
 				boundings.append(cv2.boundingRect(c))
 	#Returns bounding rectangles and item_count
 	return boundings,len(boundings)
-				
+
+def haarCascade_count(gray):
+	'''
+		counts entities using haar classifiers
+	'''
+	#Creating classifier objects
+	car_cascade = cv2.CascadeClassifier(cars.xml)
+	bike_cascade = cv2.CascadeClassifier(two_wheeler.xml)
+	bus_cascade = cv2.CascadeClassifier(bus_front.xml)
+
+	#Detecting objects
+	cars = car_cascade.detectMultiScale(gray, 1.1, 2)
+    	bike = bike_cascade.detectMultiScale(gray,1.01, 1)
+	bus = bus_cascade.detectMultiScale(gray, 1.16, 1)
+
+	boundings = list(cars) + list(bike) + list(bus)
+	#Returns bounding rectangles and item_count
+	return boundings,len(boundings)				
 	
 	

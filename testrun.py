@@ -1,19 +1,22 @@
 from HFunctions import *
 import cv2
 import time
+import pdb
 
 ACC_WT = 0.5
-ALPHA = 1 #Reduction weight factor
+ALPHA = 3 #Reduction weight factor
 try:
 	while True:
 		#GREEN ROUTINE
+		print("SIGNAL STATUS : GREEN")
 		time.sleep(5) #Waiting on green for 5 seconds
-
+		
 		#RED ROUTINE
-
-		#FRAME_COUNT = 0
+		#pdb.set_trace()
+		print("SIGNAL STATUS : RED")
+		FRAME_COUNT = 0
 		RED_TIMER = 50
-		UPD_CNT = 5
+		UPD_COUNT = 5
 		cap = cv2.VideoCapture(0)
 		try:
 			get_averageBackground(ACC_WT,cap)
@@ -24,16 +27,21 @@ try:
 				cv2.putText(frame,str(RED_TIMER),(50,50),cv2.FONT_HERSHEY_COMPLEX, 1, (0,0,255) ,2)
 				for (x,y,w,h) in rect:
 					cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),3)
+
+				#Timer update logic
+				if FRAME_COUNT % 25 == 0:
+					if UPD_COUNT > 0:
+						UPD_COUNT -= 1
+						RED_TIMER -= 1
+					else:
+						UPD_COUNT = 5
+						RED_TIMER = RED_TIMER - int(1 + ALPHA * count)
+
 				cv2.imshow("Live",frame)
+				FRAME_COUNT += 1
 				if cv2.waitKey(1) & 0xFF == ord('q'):
 					break	
-					
-				if UPD_COUNT > 0:
-					UPD_COUNT -= 1
-					RED_TIMER -= 1
-				else:
-					UPD_COUNT = 5
-					RED_TIMER = RED_TIMER - int(1 + ALPHA * count)
+
 					
 			cap.release()
 			cv2.destroyAllWindows()	
