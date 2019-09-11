@@ -8,7 +8,7 @@ import datetime
 background = None
 background_jump = None
 road_mask = cv2.imread('mask_count.jpg',cv2.IMREAD_GRAYSCALE)
-cross_mask = cv2.imread('mask_jumppoint.jpg"',cv2.IMREAD_GRAYSCALE)
+cross_mask = cv2.imread('mask_jumppoint.jpg',cv2.IMREAD_GRAYSCALE)
 
 
 def showimg(img):
