@@ -16,10 +16,12 @@ def showimg(img):
 	cv2.waitKey()
 	cv2.destroyAllWindows()
 
-def get_countBackground(weight, capture):
+def get_countBackground(weight, capture, flip = False):
 	global background
 	for i in range(60):
 		ret,frame = capture.read()
+		if flip is True:
+			frame = cv2.flip(frame,0)
 		gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 		if road_mask is not None:
 			gray = cv2.bitwise_and(gray,road_mask)
@@ -28,10 +30,12 @@ def get_countBackground(weight, capture):
 			return None
 		cv2.accumulateWeighted(gray,background,weight)
 
-def get_jumpBackground(weight, capture):
+def get_jumpBackground(weight, capture, flip = False):
 	global background_jump
 	for i in range(60):
 		ret,frame = capture.read()
+		if flip is True:
+			frame = cv2.flip(frame,0)
 		gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 		if cross_mask is not None:
 			gray = cv2.bitwise_and(gray,cross_mask)
@@ -72,7 +76,7 @@ def capture_jumpers(frame, gray, threshold_min = 25):
 		return None
 	else:
 		for c in cont:
-			if cv2.contourArea(c) > 1000:
+			if cv2.contourArea(c) > 2000:
 				x,y,w,h = cv2.boundingRect(c)
 				cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,0),3)
 				jumper = frame[y:y+h,x:x+w]
