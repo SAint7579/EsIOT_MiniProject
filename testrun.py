@@ -22,7 +22,6 @@ try:
 		time.sleep(5) #Waiting on green for 5 seconds
 		
 		#RED ROUTINE
-		#pdb.set_trace()
 		print("SIGNAL STATUS : RED")
 		FRAME_COUNT = 0
 		RED_TIMER = 50
@@ -38,13 +37,12 @@ try:
 				gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 
 
-				#rect,count = haarCascade_count(gray)		
+				#rect,count = haarCascade_count(gray)	#Alternative	
 				rect,count = static_FGEx_count(gray)
 				capture_jumpers(frame, gray)
-
-
-
+				#Displaying the results
 				cv2.putText(frame,str(RED_TIMER),(50,50),cv2.FONT_HERSHEY_COMPLEX, 1, (0,0,255) ,2)
+				#Drawing the ROI
 				cv2.polylines(frame, [pts], True,(0,255,0),3)
 				cv2.polylines(frame, [jump_pnts], True,(0,0,255),3)
 				for (x,y,w,h) in rect:
@@ -59,6 +57,7 @@ try:
 						UPD_COUNT = 5
 						RED_TIMER = RED_TIMER - int(1 + ALPHA * count)
 
+				#Showing the live frame
 				cv2.imshow("Live",frame)
 				FRAME_COUNT += 1
 				if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -69,6 +68,7 @@ try:
 			cv2.destroyAllWindows()	
 
 		except:
+			#Closing the windows
 			cap.release()
 			cv2.destroyAllWindows()
 

@@ -30,5 +30,6 @@ def cloud_upload():
 			os.remove(path)
 		return 1
 	except:
+		#For faileurs
 		return 0
 

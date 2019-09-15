@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
-
+###DO NOT EXEC###
+'''
+####MASK CRAEATION CODE###
 image = np.zeros((480,640), dtype = np.uint8)
 points = np.array([[60,310],[0,480], [640,480], [580,310] ], np.int32)
 
@@ -12,4 +14,4 @@ cv2.imwrite("mask_jumppoint.jpg",image)
 cv2.imshow("temp",image)
 cv2.waitKey()
 cv2.destroyAllWindows()
-
+'''
