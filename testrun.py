@@ -3,6 +3,7 @@ import cv2
 import time
 import pdb
 import numpy as np
+from led_signal import *
 from cloud_upload import cloud_upload 
 
 ACC_WT = 0.5
@@ -17,12 +18,14 @@ try:
 
 		#GREEN ROUTINE
 		print("SIGNAL STATUS : GREEN")
+		turn_green()
 		if cloud_upload() !=1:
 			print("Upload failed!")
 		time.sleep(5) #Waiting on green for 5 seconds
 		
 		#RED ROUTINE
 		print("SIGNAL STATUS : RED")
+		turn_red()
 		FRAME_COUNT = 0
 		RED_TIMER = 50
 		UPD_COUNT = 5
@@ -39,7 +42,8 @@ try:
 
 				#rect,count = haarCascade_count(gray)	#Alternative	
 				rect,count = static_FGEx_count(gray)
-				capture_jumpers(frame, gray)
+				if FRAME_COUNT % 10 == 0:
+					capture_jumpers(frame, gray)
 				#Displaying the results
 				cv2.putText(frame,str(RED_TIMER),(50,50),cv2.FONT_HERSHEY_COMPLEX, 1, (0,0,255) ,2)
 				#Drawing the ROI
@@ -65,13 +69,14 @@ try:
 
 					
 			cap.release()
-			cv2.destroyAllWindows()	
+			cv2.destroyAllWindows()
+			reset_pin()
 
 		except:
 			#Closing the windows
 			cap.release()
 			cv2.destroyAllWindows()
-
-
+			reset_pin()
 except KeyboardInterrupt:
 	print("Terminated")
+	reset_pin()
