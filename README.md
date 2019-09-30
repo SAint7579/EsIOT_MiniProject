@@ -9,6 +9,10 @@ Currently uses a simple static background subtraction to detect the vehicles.
 - Numpy
 - Google.cloud
 
+### Screenshot
+<img src = "https://github.com/SAint7579/SmartTMS_IOT/blob/master/screen1.png"></img>
+<img src = "https://github.com/SAint7579/SmartTMS_IOT/blob/master/screen3.png"></img>
+
 ### Modules not added yet:
 - Using SSD to detect the number plates of vehicles that violated the signal and translating it with tesseract engine.
 
